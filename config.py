@@ -3,6 +3,7 @@ import logging
 
 
 class Config(object):
+    SERVER_NAME='localhost:5000'
     # log
     LOG_LEVEL = logging.DEBUG
     SITE_NAME = 'Invation'

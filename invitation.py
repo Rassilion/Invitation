@@ -1,4 +1,6 @@
-from flask import Flask
+from datetime import datetime
+
+from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
 from config import Config
 
@@ -17,9 +19,30 @@ logging.basicConfig(
 
 )
 
-@app.route('/')
-def hello_world():
-    return 'Hello World!'
+
+# model
+class Invitation(db.Model):
+    __tablename__ = 'invitation'
+    url = db.Column(db.String(64), primary_key=True)
+    name = db.Column(db.String(64))
+    body = db.Column(db.UnicodeText)
+    timestamp = db.Column(db.DateTime, default=datetime.utcnow)
+
+    def __init__(self, url=None, name=None, body=None):
+        self.url = url
+        self.name = name
+        self.body = body
+
+    def __unicode__(self):
+        return self.name
+
+
+# views
+@app.route("/", subdomain="<name>")
+@app.route('/inv/<name>')
+def invitation_render(name):
+    inv = Invitation.query.filter_by(name=name).first()
+    return render_template('1/index.html', inv=inv)
 
 
 if __name__ == '__main__':
