@@ -29,3 +29,7 @@ def get_or_create(model, **kwargs):
         session.add(instance)
         session.commit()
         return instance
+
+if __name__ == '__main__':
+    db.drop_all()
+    db.create_all()
