@@ -41,8 +41,11 @@ class Invitation(db.Model):
 @app.route("/", subdomain="<name>")
 @app.route('/inv/<name>')
 def invitation_render(name):
-    inv = Invitation.query.filter_by(name=name).first()
-    return render_template('1/index.html', inv=inv)
+    inv = Invitation.query.filter_by(url=name).first()
+    if inv:
+        return render_template('1/index.html', inv=inv)
+    else:
+        return '404'
 
 
 if __name__ == '__main__':
